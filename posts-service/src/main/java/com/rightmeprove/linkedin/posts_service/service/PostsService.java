@@ -21,20 +21,19 @@ public class PostsService {
     private final PostsRepository postsRepository;
     private final ModelMapper modelMapper;
 
-    public PostDto create(PostCreateRequestDto postDto, Long userId) {
-        Post post = modelMapper.map(postDto,Post.class);
+    public PostDto createPost(PostCreateRequestDto postDto, Long userId) {
+        Post post = modelMapper.map(postDto, Post.class);
         post.setUserId(userId);
 
         Post savedPost = postsRepository.save(post);
-        return modelMapper.map(savedPost,PostDto.class);
+        return modelMapper.map(savedPost, PostDto.class);
     }
 
     public PostDto getPostById(Long postId) {
-        log.debug("Retrieving post with ID: {}",postId);
+        log.debug("Retrieving post with ID: {}", postId);
         Post post = postsRepository.findById(postId).orElseThrow(() ->
-                new ResourceNotFoundException("Post not found with id: " + postId));
-
-        return  modelMapper.map(post,PostDto.class);
+                new ResourceNotFoundException("Post not found with id: "+postId));
+        return modelMapper.map(post, PostDto.class);
     }
 
     public List<PostDto> getAllPostsOfUser(Long userId) {
